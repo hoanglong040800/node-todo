@@ -1,14 +1,12 @@
-import express, { Express, json } from 'express'
+import express, { Express } from 'express'
 import 'dotenv/config'
 import routes from 'routes'
-import { checkApiVersion } from 'middleware'
+import { commonMiddleware } from 'middleware'
 
 const app: Express = express()
 const port = process.env.PORT
 
-// middleware
-app.use(json())
-checkApiVersion(app)
+commonMiddleware(app)
 
 routes(app)
 
