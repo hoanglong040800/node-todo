@@ -5,6 +5,7 @@
     "outDir": "./dist",
     "target": "es6",
     "module": "commonjs",
+    "typeRoots": ["./src/types"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
