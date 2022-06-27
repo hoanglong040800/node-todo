@@ -1,10 +1,9 @@
-import { randomUUID } from 'crypto'
 import { Knex } from 'knex'
 import { USERS_STATUS } from '../../src/constants/table.constants'
 
 export async function up(knex: Knex): Promise<void> {
 	return knex.schema.createTable('users', table => {
-		table.uuid('user_id').primary().defaultTo(randomUUID())
+		table.uuid('user_id').primary()
 		table.string('email').notNullable().unique()
 		table.string('password', 50).notNullable()
 		table.string('display_name', 255).notNullable()

@@ -6,7 +6,7 @@ export async function up(knex: Knex): Promise<void> {
 		if (exists) return
 
 		return knex.schema.createTable('tasks', table => {
-			table.uuid('task_id').primary().defaultTo(randomUUID())
+			table.uuid('task_id').primary()
 			table.string('content', 255)
 			table.timestamp('created_at').defaultTo(knex.fn.now())
 			table.timestamp('updated_at').defaultTo(knex.fn.now())

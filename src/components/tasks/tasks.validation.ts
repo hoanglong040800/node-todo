@@ -7,7 +7,7 @@ interface ITasksValidation {
 }
 
 const validators: ITasksValidation = {
-	createTask: [check('content').trim().isLength({ max: 255 })],
+	createTask: [check('content').exists().trim().isLength({ max: 255 })],
 	getTaskDetail: [check('taskId').exists().notEmpty().isUUID()],
 }
 
