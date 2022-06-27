@@ -11,11 +11,12 @@ export default async function getTasksController(req: Request, res: Response) {
 				TABLE.TASKS.FIELDS.TASK_ID,
 				TABLE.TASKS.FIELDS.CONTENT,
 				TABLE.TASKS.FIELDS.CREATED_AT,
-				TABLE.USERS.FIELDS.DISPLAY_NAME,
 			)
 			.from(TABLE.TASKS.NAME)
 			.join(TABLE.USERS.NAME, TABLE.USERS.FIELDS.USER_ID, TABLE.TASKS.FIELDS.USER_ID)
-			.where(TABLE.USERS.FIELDS.USER_ID, '=', '24d0c684-30e1-40b0-9b1b-1d1609cc05d5')
+			.where({
+				[TABLE.USERS.FIELDS.USER_ID]: '24d0c684-30e1-40b0-9b1b-1d1609cc05d5',
+			})
 
 		return buildResponse(res, 200, tasks[0], message)
 	} catch (e) {
