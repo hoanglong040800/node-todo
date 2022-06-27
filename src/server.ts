@@ -1,14 +1,23 @@
 import express, { Express, json } from 'express'
 import 'dotenv/config'
 import routes from 'routes'
-import { checkApiVersion } from 'middleware'
+import bodyParser from 'body-parser'
 
 const app: Express = express()
 const port = process.env.PORT
 
-// middleware
-app.use(json())
-checkApiVersion(app)
+// ====== Middleware ======
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
+// use for route based on api version
+app.use((req, res, next) => {
+  req.version = req.headers['accept-version']
+  next()
+})
+
+// ====== Routing ======
 
 routes(app)
 
