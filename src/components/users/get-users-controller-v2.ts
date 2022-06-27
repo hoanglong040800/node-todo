@@ -1,14 +1,17 @@
 import db from 'config/knex'
+import { TABLE } from 'constants/table.constants'
 import { Request, Response } from 'express'
+import { buildResponse } from 'utils'
 
 export default async function getUsersControllerV2(
   req: Request,
   res: Response
 ) {
+  let message = 'Get all users successfully'
   try {
-    const users = await db('users').select('*')
-    res.status(200).json(users)
+    const users = await db.select(TABLE.USERS.FIELDS.ALL).from(TABLE.USERS.NAME)
+    return buildResponse(res, users, 200, message)
   } catch (e) {
-    res.status(500).send('Get all users V2 failed')
+    res.sendStatus(500)
   }
 }

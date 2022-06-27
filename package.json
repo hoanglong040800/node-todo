@@ -20,9 +20,10 @@
     "ext": "ts, js"
   },
   "dependencies": {
-    "express-routes-versioning": "^1.0.1",
+    "body-parser": "^1.20.0",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-routes-versioning": "^1.0.1",
     "knex": "^2.1.0",
     "pg": "^8.7.3",
     "tsconfig-paths": "^4.0.0"
