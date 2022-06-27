@@ -10,7 +10,13 @@ export async function seed(knex: Knex): Promise<void> {
       user_id: '24d0c684-30e1-40b0-9b1b-1d1609cc05d5',
       email: 'user1@gmail.com',
       password: '1',
-      display_name: 'user1',
+      display_name: 'User 1',
+      status: 'ACTIVE',
+    },
+    {
+      email: 'user2@gmail.com',
+      password: '1',
+      display_name: 'User 2',
       status: 'ACTIVE',
     },
   ])
