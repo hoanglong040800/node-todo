@@ -7,7 +7,7 @@ interface ITable {
 }
 
 enum USERS_FIELDS {
-  ID = 'u.id',
+  USER_ID = 'u.user_id as userId',
   EMAIL = 'u.email',
   PASSWORD = 'u.password',
   DISPLAY_NAME = 'u.display_name as displayName',
