@@ -1,4 +1,5 @@
-import { Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
+import { ValidationChain, ValidationError, validationResult } from 'express-validator'
 
 export function buildResponse(
 	res: Response,
@@ -13,10 +14,25 @@ export function buildResponse(
 	})
 }
 
-export function validateUUID(str: string) {
-	const regex =
-		/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi
-	return regex.test(str)
+export function validateRequest(req: Request, res: Response, next: NextFunction) {
+	const validationErrors = validationResult(req)
+		.array()
+		.map(({ location, param, msg }: ValidationError) => `${location}.${param}: ${msg}`)
+		.join('; ')
+
+	if (validationErrors) {
+		return buildResponse(res, 400, null, validationErrors)
+	}
+
+	next()
+}
+
+export function mapValidatorsWithHandler(validators: any) {
+	for (let key in validators) {
+		validators[key] = [...validators[key], validateRequest]
+	}
+
+	return validators
 }
 
 export function empty(val: any) {

@@ -1,4 +1,4 @@
-import express, { Express, json } from 'express'
+import express, { Express } from 'express'
 import 'dotenv/config'
 import routes from 'routes'
 import bodyParser from 'body-parser'
@@ -13,8 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // use for route based on api version
 app.use((req, res, next) => {
-  req.version = req.headers['accept-version']
-  next()
+	req.version = req.headers['accept-version']
+	next()
 })
 
 // ====== Routing ======
@@ -22,5 +22,5 @@ app.use((req, res, next) => {
 routes(app)
 
 app.listen(port, () => {
-  console.log(`⚡️ Server is running at http://localhost:${port} ⚡️\n`)
+	console.log(`⚡️ Server is running at http://localhost:${port} ⚡️\n`)
 })
