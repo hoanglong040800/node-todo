@@ -1,7 +1,7 @@
 import db from 'config/knex'
-import { TABLE } from 'constants/table.constants'
+import { TABLE } from 'const'
 import { Request, Response } from 'express'
-import { buildResponse } from 'utils'
+import { buildResponse } from 'services'
 
 export default async function getTasksController(req: Request, res: Response) {
 	let message = 'Get all tasks by current user successfully'

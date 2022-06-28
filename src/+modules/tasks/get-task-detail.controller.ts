@@ -1,7 +1,8 @@
 import db from 'config/knex'
-import { TABLE } from 'constants/table.constants'
+import { TABLE } from 'const'
 import { Request, Response } from 'express'
-import { buildResponse, empty } from 'utils'
+import { buildResponse } from 'services'
+import { empty } from 'utils'
 
 export default async function getTaskDetailController(req: Request, res: Response) {
 	try {

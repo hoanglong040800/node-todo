@@ -1,6 +1,6 @@
 import { Express } from 'express'
-import usersRouter from 'components/users/index'
-import tasksRouter from 'components/tasks/index'
+import { tasksRouter } from '+modules/tasks/+core'
+import { usersRouter } from '+modules/users/+core'
 
 export default function (app: Express) {
 	app.use('/api/users', usersRouter)

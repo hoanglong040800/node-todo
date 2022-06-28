@@ -1,31 +1,5 @@
-import { NextFunction, Request, Response } from 'express'
-import { ValidationError, validationResult } from 'express-validator'
+import { validateRequest } from "middleware"
 
-export function buildResponse(
-	res: Response,
-	status: 200 | 201 | 400 | 401 | 404,
-	data: any[] | {} | null,
-	message = '',
-) {
-	return res.status(status).json({
-		data: data,
-		status: status,
-		message: message,
-	})
-}
-
-export function validateRequest(req: Request, res: Response, next: NextFunction) {
-	const validationErrors = validationResult(req)
-		.array()
-		.map(({ location, param, msg }: ValidationError) => `${location}.${param}: ${msg}`)
-		.join('; ')
-
-	if (validationErrors) {
-		return buildResponse(res, 400, null, validationErrors)
-	}
-
-	next()
-}
 
 export function mapValidatorsWithHandler(validators: any) {
 	for (let key in validators) {
