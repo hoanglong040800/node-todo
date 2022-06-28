@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
-import { ValidationChain, ValidationError, validationResult } from 'express-validator'
+import { ValidationError, validationResult } from 'express-validator'
 
 export function buildResponse(
 	res: Response,
-	status: 200 | 201 | 400 | 401 | 404 | 500,
+	status: 200 | 201 | 400 | 401 | 404,
 	data: any[] | {} | null,
 	message = '',
 ) {
@@ -60,4 +60,14 @@ export function empty(val: any) {
 
 export function notEmpty(val: any) {
 	return !empty(val)
+}
+
+export function convertQueryObjToObj(queryObj: any) {
+	const keyValues = Object.keys(queryObj).map(key => {
+		const newKey = key.substring(key.indexOf('.') + 1)
+
+		return { [newKey]: queryObj[key] }
+	})
+
+	return Object.assign({}, ...keyValues)
 }
