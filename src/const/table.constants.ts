@@ -1,5 +1,5 @@
-import { TASKS_TABLE } from '+modules/tasks/+core'
-import { USERS_TABLE } from '+modules/users/+core'
+import TASKS_TABLE from '+modules/tasks/+core/tasks-table.constants'
+import USERS_TABLE from '+modules/users/+core/users-table.constants'
 
 const TABLE = {
 	USERS: USERS_TABLE,
