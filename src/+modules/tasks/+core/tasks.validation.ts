@@ -1,28 +1,22 @@
 import db from 'config/knex'
 import { TABLE } from 'const'
-
 import { check, ValidationChain } from 'express-validator'
-import { empty, mapValidatorsWithHandler } from 'utils'
+import { empty, addMiddlewareToValidator } from 'utils'
 
-interface ITaskValidationFields {
+interface IFields {
 	taskId: ValidationChain
 	taskIdCustom: ValidationChain
 	content: ValidationChain
 }
 
-interface ITaskValidationActions {
+interface IActions {
 	createTask: any
 	getTaskDetail: any
 	deleteTask: any
 	updateTask: any
 }
 
-interface ITaskValidation {
-	fields: ITaskValidationFields
-	actions: ITaskValidationActions
-}
-
-const fields: ITaskValidationFields = {
+const fields: IFields = {
 	content: check('content').exists().bail().isString().bail().trim().isLength({ max: 255 }),
 
 	taskId: check('taskId').exists().bail().notEmpty().bail().isUUID(),
@@ -46,16 +40,13 @@ const fields: ITaskValidationFields = {
 		}),
 }
 
-const actions: ITaskValidationActions = {
+const actions: IActions = {
 	createTask: [fields.content],
 	getTaskDetail: [fields.taskId],
 	deleteTask: [fields.taskIdCustom],
 	updateTask: [fields.taskIdCustom, fields.content],
 }
 
-const tasksValidation: ITaskValidation = {
-	fields,
-	actions: mapValidatorsWithHandler(actions),
-}
+const tasksValidation: IActions = addMiddlewareToValidator(actions)
 
 export default tasksValidation
