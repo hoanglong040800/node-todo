@@ -10,7 +10,7 @@ export default async function getUsersControllerV2(
   let message = 'Get all users successfully'
   try {
     const users = await db.select(TABLE.USERS.FIELDS.ALL).from(TABLE.USERS.NAME)
-    return buildResponse(res, users, 200, message)
+    return buildResponse(res, 200, users, message)
   } catch (e) {
     res.sendStatus(500)
   }
