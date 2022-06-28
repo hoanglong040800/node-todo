@@ -1,22 +1,53 @@
+import { USERS_STATUS } from '+modules/users/+core'
 import db from 'config/knex'
 import { TABLE } from 'const'
-import { Request, Response } from 'express'
-import { buildResponse } from 'services'
+import { Request } from 'express'
+import { AppResponse } from 'interfaces'
 import { empty } from 'utils'
 
-export default async function loginController(req: Request, res: Response) {
+interface IReq extends Request {
+	body: {
+		email: string
+		password: string
+	}
+}
+
+interface IResData {
+	email: string
+}
+
+export default async function loginController(req: IReq, res: AppResponse<IResData>) {
 	try {
-		const user = await db
-			.select(TABLE.USERS.FIELDS.USER_ID)
+		const userQuery = await db
+			.select(
+				TABLE.USERS.FIELDS.USER_ID,
+				TABLE.USERS.FIELDS.EMAIL,
+				TABLE.USERS.FIELDS.DISPLAY_NAME,
+				TABLE.USERS.FIELDS.STATUS,
+			)
 			.from(TABLE.USERS.NAME)
 			.where(TABLE.USERS.FIELDS.EMAIL, req.body.email)
 			.andWhere(TABLE.USERS.FIELDS.PASSWORD, req.body.password)
 
+		const user = userQuery[0]
+
 		if (empty(user)) {
-			return buildResponse(res, 404, null, 'Email or password is incorrect')
+			return res.status(404).json({
+				status: 404,
+				message: 'abc',
+				data: null,
+			})
 		}
 
-		return buildResponse(res, 200, null, 'Login successfully')
+		if (user.status !== USERS_STATUS.ACTIVE) {
+			return res.status(404).json({
+				status: 404,
+				message: 'abc',
+				data: null,
+			})
+		}
+
+		return user
 	} catch (e) {
 		res.sendStatus(500)
 	}
