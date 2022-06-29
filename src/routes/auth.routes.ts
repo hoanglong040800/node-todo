@@ -1,6 +1,6 @@
 import express, { Router } from 'express'
-import { loginController } from '+modules/auth'
-import authValidation from '../validations/auth.validation'
+import { loginController } from 'controllers/auth'
+import { authValidation } from 'validations'
 
 const router: Router = express.Router()
 

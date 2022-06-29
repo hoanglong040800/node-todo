@@ -1,6 +1,6 @@
 import { API_VERSIONS } from 'const/common.constants'
 import express, { Router } from 'express'
-import { getUsersController, getUsersV2Controller } from '+modules/users'
+import { getUsersController, getUsersV2Controller } from 'controllers/users'
 const versionRoutes = require('express-routes-versioning')()
 
 const router: Router = express.Router()

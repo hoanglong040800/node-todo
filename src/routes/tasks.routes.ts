@@ -5,7 +5,7 @@ import {
 	getTaskDetailController,
 	getTasksController,
 	updateTaskController,
-} from '+modules/tasks'
+} from 'controllers/tasks'
 import { tasksValidation } from 'validations'
 
 const router: Router = express.Router()
