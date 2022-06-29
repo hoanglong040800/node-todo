@@ -1,4 +1,4 @@
-import db from 'configs/knex'
+import { db } from 'configs'
 import { TABLE } from 'const'
 import { randomUUID } from 'crypto'
 import { Request, Response } from 'express'

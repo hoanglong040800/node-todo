@@ -3,7 +3,7 @@ import { Response } from 'express'
 export function buildResponse(
 	res: Response,
 	status: 200 | 201 | 400 | 401 | 404,
-	data: any[] | {} | null,
+	data: any,
 	message = '',
 ) {
 	return res.status(status).json({

@@ -1,4 +1,4 @@
-import db from 'configs/knex'
+import { db } from 'configs'
 import { TABLE, USER_STATUS } from 'const'
 import { Request, Response } from 'express'
 import { buildResponse } from 'services'
