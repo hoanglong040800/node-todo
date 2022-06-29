@@ -1,7 +1,7 @@
-import { validateRequest } from "middleware"
+import { validateRequest } from "middlewares"
 
 
-export function mapValidatorsWithHandler(validators: any) {
+export function addMiddlewareToValidator(validators: any) {
 	for (let key in validators) {
 		validators[key] = [...validators[key], validateRequest]
 	}

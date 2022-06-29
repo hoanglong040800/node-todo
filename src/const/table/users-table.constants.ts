@@ -1,4 +1,4 @@
-import { USERS_STATUS } from "./users.constants";
+import { USER_STATUS } from 'const'
 
 enum FIELDS {
 	USER_ID = 'u.user_id',
@@ -12,7 +12,7 @@ const USERS_TABLE = {
 	NAME: 'users as u',
 	FIELDS: { ...FIELDS, ALL: Object.values(FIELDS) },
 	VALUES: {
-		STATUS: USERS_STATUS,
+		STATUS: USER_STATUS,
 	},
 }
 
