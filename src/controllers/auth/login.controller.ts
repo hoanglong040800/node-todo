@@ -2,7 +2,7 @@ import db from 'configs/knex'
 import { TABLE, USER_STATUS } from 'const'
 import { Request, Response } from 'express'
 import { buildResponse } from 'services'
-import { empty } from 'utils'
+import { convertQueryObjToObj, empty } from 'utils'
 import { IUser } from 'interfaces'
 import jwt from 'jsonwebtoken'
 
@@ -21,9 +21,9 @@ interface IResData {
 	refreshTokenExpire: Date
 }
 
-// minutes * milisecond
-const ACCESS_TOKEN_EXPIRES_IN = 0.5 * 60000
-const REFRESH_TOKEN_EXPIRES_IN = 30 * 60 * 60000
+// milisecond
+const ACCESS_TOKEN_EXPIRES_IN = 0.5 * 60 * 1000
+const REFRESH_TOKEN_EXPIRES_IN = 30 * 24 * 60 * 60 * 1000
 
 export default async function loginController(req: IReq, res: Response) {
 	try {
@@ -48,6 +48,15 @@ export default async function loginController(req: IReq, res: Response) {
 		const accessTokenExpire = new Date(new Date().getTime() + ACCESS_TOKEN_EXPIRES_IN)
 		const refreshTokenExpire = new Date(new Date().getTime() + REFRESH_TOKEN_EXPIRES_IN)
 
+		await db(TABLE.USER_TOKENS.NAME).insert(
+			convertQueryObjToObj({
+				[TABLE.USER_TOKENS.FIELDS.ACCESS_TOKEN]: accessToken,
+				[TABLE.USER_TOKENS.FIELDS.ACCESS_TOKEN_EXPIRE]: accessTokenExpire,
+				[TABLE.USER_TOKENS.FIELDS.REFRESH_TOKEN]: refreshToken,
+				[TABLE.USER_TOKENS.FIELDS.REFRESH_TOKEN_EXPIRE]: refreshTokenExpire,
+			}),
+		)
+
 		const resData: IResData = {
 			user,
 			accessToken,
@@ -58,7 +67,7 @@ export default async function loginController(req: IReq, res: Response) {
 
 		return buildResponse(res, 201, resData, 'Login successfully')
 	} catch (e) {
-		res.sendStatus(500)
+		res.status(500).send(e)
 	}
 }
 
