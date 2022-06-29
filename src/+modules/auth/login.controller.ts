@@ -1,11 +1,10 @@
-import { IUser, USER_STATUS } from '+modules/users/+core'
-import db from 'config/knex'
-import { TABLE } from 'const'
+import db from 'configs/knex'
+import { TABLE, USER_STATUS } from 'const'
 import { Request, Response } from 'express'
 import { buildResponse } from 'services'
 import { empty } from 'utils'
+import { IUser } from 'interfaces'
 import jwt from 'jsonwebtoken'
-import { Console } from 'console'
 
 interface IReq extends Request {
 	body: {
@@ -17,12 +16,14 @@ interface IReq extends Request {
 interface IResData {
 	user: IUser
 	accessToken: string
-	expire: Date
+	accessTokenExpire: Date
 	refreshToken: string
+	refreshTokenExpire: Date
 }
 
-const ACCESS_TOKEN_EXPIRE = 30 //minutes
-const REFRESH_TOKEN_EXPIRE = 30 * 60 * 60 * 60
+// minutes * milisecond
+const ACCESS_TOKEN_EXPIRES_IN = 0.5 * 60000
+const REFRESH_TOKEN_EXPIRES_IN = 30 * 60 * 60000
 
 export default async function loginController(req: IReq, res: Response) {
 	try {
@@ -37,20 +38,22 @@ export default async function loginController(req: IReq, res: Response) {
 		}
 
 		const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET || '', {
-			expiresIn: ACCESS_TOKEN_EXPIRE,
+			expiresIn: ACCESS_TOKEN_EXPIRES_IN,
 		})
 
 		const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET || '', {
-			expiresIn: REFRESH_TOKEN_EXPIRE,
+			expiresIn: REFRESH_TOKEN_EXPIRES_IN,
 		})
 
-		const expire = new Date(new Date().getTime() + ACCESS_TOKEN_EXPIRE * 60000)
+		const accessTokenExpire = new Date(new Date().getTime() + ACCESS_TOKEN_EXPIRES_IN)
+		const refreshTokenExpire = new Date(new Date().getTime() + REFRESH_TOKEN_EXPIRES_IN)
 
 		const resData: IResData = {
 			user,
 			accessToken,
-			expire,
+			accessTokenExpire,
 			refreshToken,
+			refreshTokenExpire,
 		}
 
 		return buildResponse(res, 201, resData, 'Login successfully')

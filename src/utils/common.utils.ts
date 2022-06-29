@@ -1,4 +1,4 @@
-import { validateRequest } from "middleware"
+import { validateRequest } from "middlewares"
 
 
 export function addMiddlewareToValidator(validators: any) {

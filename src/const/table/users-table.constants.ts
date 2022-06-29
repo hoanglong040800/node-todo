@@ -1,4 +1,4 @@
-import { USER_STATUS } from "./users.constants";
+import { USER_STATUS } from 'const'
 
 enum FIELDS {
 	USER_ID = 'u.user_id',

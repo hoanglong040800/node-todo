@@ -1,4 +1,4 @@
-import db from 'config/knex'
+import db from 'configs/knex'
 import { TABLE } from 'const'
 import { check, ValidationChain } from 'express-validator'
 import { empty, addMiddlewareToValidator } from 'utils'

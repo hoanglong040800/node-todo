@@ -1,3 +1,4 @@
+import express, { Router } from 'express'
 import {
 	createTaskController,
 	deleteTaskController,
@@ -5,8 +6,7 @@ import {
 	getTasksController,
 	updateTaskController,
 } from '+modules/tasks'
-import express, { Router } from 'express'
-import tasksValidation from './tasks.validation'
+import { tasksValidation } from 'validations'
 
 const router: Router = express.Router()
 
