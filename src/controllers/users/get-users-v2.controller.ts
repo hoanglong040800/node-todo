@@ -7,7 +7,7 @@ export default async function getUsersV2Controller(req: Request, res: Response) 
 	let message = 'Get all users successfully'
 	try {
 		const users = await db
-			.select(TABLE.USERS.FIELDS.EMAIL, TABLE.USERS.FIELDS.DISPLAY_NAME)
+			.select(TABLE.USERS.FIELDS.EMAIL, TABLE.USERS.FIELDS.DISPLAY_NAME, TABLE.USERS.FIELDS.ROLE)
 			.from(TABLE.USERS.NAME)
 		return buildResponse(res, 200, users, message)
 	} catch (e) {

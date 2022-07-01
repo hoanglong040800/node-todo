@@ -1,2 +1,1 @@
-export * from './response.service'
-export * from './auth.service'
+export * from './common.service'

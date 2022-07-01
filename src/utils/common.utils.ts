@@ -1,14 +1,3 @@
-import { validateRequest } from "middlewares"
-
-
-export function addMiddlewareToValidator(validators: any) {
-	for (let key in validators) {
-		validators[key] = [...validators[key], validateRequest]
-	}
-
-	return validators
-}
-
 export function empty(val: any) {
 	if (val === undefined) return true
 

@@ -1,7 +1,7 @@
 import { db } from 'configs'
 import { TABLE } from 'const'
 import { check, ValidationChain } from 'express-validator'
-import { addMiddlewareToValidator, empty } from 'utils'
+import { empty } from 'utils'
 
 interface IActions {
 	login: ValidationChain[]
@@ -52,6 +52,4 @@ const actions: IActions = {
 	],
 }
 
-const authValidation: IActions = addMiddlewareToValidator(actions)
-
-export default authValidation
+export default actions
