@@ -1,1 +1,1 @@
-export * from './response.service'
+export * from './common.service'

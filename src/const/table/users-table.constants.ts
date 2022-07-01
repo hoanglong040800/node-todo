@@ -1,4 +1,5 @@
 import { USER_STATUS } from 'const'
+import { ROLES } from 'auth/index'
 
 enum FIELDS {
 	USER_ID = 'u.user_id',
@@ -6,6 +7,7 @@ enum FIELDS {
 	PASSWORD = 'u.password',
 	DISPLAY_NAME = 'u.display_name',
 	STATUS = 'u.status',
+	ROLE = 'u.role',
 }
 
 const USERS_TABLE = {
@@ -13,6 +15,7 @@ const USERS_TABLE = {
 	FIELDS: { ...FIELDS, ALL: Object.values(FIELDS) },
 	VALUES: {
 		STATUS: USER_STATUS,
+		ROLE: ROLES,
 	},
 }
 

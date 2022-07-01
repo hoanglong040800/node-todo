@@ -1,7 +1,7 @@
 import { db } from 'configs'
 import { TABLE } from 'const'
 import { check, ValidationChain } from 'express-validator'
-import { empty, addMiddlewareToValidator } from 'utils'
+import { empty } from 'utils'
 
 interface IFields {
 	taskId: ValidationChain
@@ -47,6 +47,4 @@ const actions: IActions = {
 	updateTask: [fields.taskIdCustom, fields.content],
 }
 
-const tasksValidation: IActions = addMiddlewareToValidator(actions)
-
-export default tasksValidation
+export default actions
