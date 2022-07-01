@@ -1,10 +1,9 @@
 import { db } from 'configs'
 import { TABLE, USER_STATUS } from 'const'
 import { Request, Response } from 'express'
-import { buildResponse } from 'services'
+import { buildResponse, generateToken } from 'services'
 import { convertQueryObjToObj, empty } from 'utils'
-import { IUser } from 'interfaces'
-import jwt from 'jsonwebtoken'
+import { ITokenData, IUser } from 'interfaces'
 
 interface IReq extends Request {
 	body: {
@@ -21,10 +20,6 @@ interface IResData {
 	refreshTokenExpire: Date
 }
 
-// milisecond
-const ACCESS_TOKEN_EXPIRES_IN = 0.5 * 60 * 1000
-const REFRESH_TOKEN_EXPIRES_IN = 30 * 24 * 60 * 60 * 1000
-
 export default async function loginController(req: IReq, res: Response) {
 	try {
 		const { user } = await queryLogic(req)
@@ -37,16 +32,10 @@ export default async function loginController(req: IReq, res: Response) {
 			return buildResponse(res, 400, null, 'User is inactive')
 		}
 
-		const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET || '', {
-			expiresIn: ACCESS_TOKEN_EXPIRES_IN,
-		})
+		const tokenData: ITokenData = user
 
-		const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET || '', {
-			expiresIn: REFRESH_TOKEN_EXPIRES_IN,
-		})
-
-		const accessTokenExpire = new Date(new Date().getTime() + ACCESS_TOKEN_EXPIRES_IN)
-		const refreshTokenExpire = new Date(new Date().getTime() + REFRESH_TOKEN_EXPIRES_IN)
+		const [accessToken, accessTokenExpire] = generateToken('ACCESS', tokenData)
+		const [refreshToken, refreshTokenExpire] = generateToken('REFRESH', tokenData)
 
 		await db(TABLE.USER_TOKENS.NAME).insert(
 			convertQueryObjToObj({
@@ -65,7 +54,7 @@ export default async function loginController(req: IReq, res: Response) {
 			refreshTokenExpire,
 		}
 
-		return buildResponse(res, 201, resData, 'Login successfully')
+		return buildResponse(res, 200, resData, 'Login successfully')
 	} catch (e) {
 		res.status(500).send(e)
 	}

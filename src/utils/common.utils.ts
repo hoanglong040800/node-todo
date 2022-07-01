@@ -32,7 +32,7 @@ export function empty(val: any) {
 	return false
 }
 
-export function notEmpty(val: any) {
+export function hasValue(val: any) {
 	return !empty(val)
 }
 

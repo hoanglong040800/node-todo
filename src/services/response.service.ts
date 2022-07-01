@@ -2,7 +2,7 @@ import { Response } from 'express'
 
 export function buildResponse(
 	res: Response,
-	status: 200 | 201 | 400 | 401 | 404,
+	status: 200 | 201 | 400 | 401 | 403 | 404,
 	data: any,
 	message = '',
 ) {
