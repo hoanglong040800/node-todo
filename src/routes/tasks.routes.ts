@@ -7,14 +7,31 @@ import {
 	updateTaskController,
 } from 'controllers/tasks'
 import { tasksValidation } from 'validations'
-import { validateRequest } from 'middlewares'
+import { authenAndValidate } from 'middlewares'
+import { ROLES } from 'auth'
 
 const router: Router = express.Router()
 
 router.get('/', getTasksController)
-router.get('/:taskId/', validateRequest(tasksValidation.getTaskDetail), getTaskDetailController)
-router.post('/', validateRequest(tasksValidation.createTask), createTaskController)
-router.put('/:taskId', validateRequest(tasksValidation.updateTask), updateTaskController)
-router.delete('/:taskId', validateRequest(tasksValidation.deleteTask), deleteTaskController)
+router.get(
+	'/:taskId/',
+	authenAndValidate([ROLES.NORMAL_USER], tasksValidation.getTaskDetail),
+	getTaskDetailController,
+)
+router.post(
+	'/',
+	authenAndValidate([ROLES.NORMAL_USER], tasksValidation.createTask),
+	createTaskController,
+)
+router.put(
+	'/:taskId',
+	authenAndValidate([ROLES.NORMAL_USER], tasksValidation.updateTask),
+	updateTaskController,
+)
+router.delete(
+	'/:taskId',
+	authenAndValidate([ROLES.NORMAL_USER], tasksValidation.deleteTask),
+	deleteTaskController,
+)
 
 export default router

@@ -67,6 +67,7 @@ async function queryLogic(req: Request) {
 			TABLE.USERS.FIELDS.EMAIL,
 			TABLE.USERS.FIELDS.DISPLAY_NAME,
 			TABLE.USERS.FIELDS.STATUS,
+			TABLE.USERS.FIELDS.ROLE,
 		)
 		.from(TABLE.USERS.NAME)
 		.where(TABLE.USERS.FIELDS.EMAIL, req.body.email)

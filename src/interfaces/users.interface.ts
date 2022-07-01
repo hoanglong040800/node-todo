@@ -1,3 +1,4 @@
+import { ROLES } from 'auth'
 import { JwtPayload } from 'jsonwebtoken'
 import { USER_STATUS } from '../const/users.constants'
 
@@ -6,7 +7,7 @@ export interface IUser {
 	displayName: string
 	email?: string
 	status: USER_STATUS
-	role: string
+	role: ROLES
 }
 
 export interface ITokenData extends JwtPayload {
@@ -14,5 +15,5 @@ export interface ITokenData extends JwtPayload {
 	displayName: string
 	email?: string
 	status: USER_STATUS
-	role: string
+	role: ROLES
 }
